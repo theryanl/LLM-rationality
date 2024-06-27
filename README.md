@@ -11,3 +11,10 @@ forward modeling:
 
 inverse modeling: 
 ./inverse_model/run_inverse.sh
+
+To run analyses, use the following commands:
+
+forward modeling: 
+
+inverse modeling: 
+./inverse_model/run_analysis.sh
