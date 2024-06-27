@@ -1,0 +1,11 @@
+python3.11 -m src.inverse_model.inverse_model \
+--output_dir src/inverse_model/results/pairwise/negative/zero_shot/ \
+--num_choices 47 \
+--prompt_type negative \
+--prompt_method zero_shot \
+--total_completions 42 \
+--num_completions 8 \
+--experiment_type pairwise \
+--c_index_start 34 \
+--split 3 \
+--fixing True \
