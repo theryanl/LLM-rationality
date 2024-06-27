@@ -15,12 +15,12 @@ def load_data(args):
     """
     Load the dataset
     """
-
     if args.dataset_name == "llama3-70b-individual-zero-shot":
         dataset = load_dataset("json", data_files="")
         # redacted for anonymity purposes
         dataset = dataset['train'].select(range(args.num_examples))
     return dataset
+
 
 def cal_expected_value(prob_A, prob_B):
     """
@@ -55,9 +55,7 @@ def cal_pearson_corr(prob_pred, prob_expected, args):
         return pearsonr_A, preason_p_value_A, pearsonr_B, preason_p_value_B
     elif args.mode == "max":
         prob_pred = [1 if p == "A" else 0 for p in prob_pred]
-        # print(f"Prob pred: {prob_pred}")
         prob_expected = [1 if p == "A" else 0 for p in prob_expected]
-        # print(f"Prob expected: {prob_expected}")
         return pearsonr(prob_pred, prob_expected)
 
 
@@ -115,7 +113,6 @@ def cal_mean_squared_error(prob_pred, prob_expected, args):
 
 
 def main(args):
-    
     model_dataset_zero_shot = load_dataset("json", data_files="") # redacted for anonymity purposes
     model_dataset_zero_shot = model_dataset_zero_shot['train'].select(range(args.num_examples))
     print(f"Model dataset zero shot: {model_dataset_zero_shot}")
@@ -131,14 +128,12 @@ def main(args):
     )
     human_samples = dataset.samples
     samples = dataset.reward_samples
-   
     expected_choices = []
     human_choices = []  
     model_zero_shot_choices = []
     model_cot_choices = []
     output_file = f"" # redacted for anonymity purposes
     
-   
     for sample, human_sample, model_zero_pred, model_cot_pred in zip(samples, human_samples, model_dataset_zero_shot, model_dataset_cot):
         expected_A, expected_B = cal_expected_value(sample.prob_A, sample.prob_B)
         expected_choices.append("A" if expected_A > expected_B else "B")
@@ -151,34 +146,6 @@ def main(args):
             
         model_cot_choices.append(model_cot_pred['answer'][0])
         
-        
-    # model_zero_expected_spearman, model_zero_expected_spearman_p_value = cal_spearman_corr(model_zero_shot_choices, expected_choices, args)
-    # model_zero_expected_pearson, model_zero_expected_pearson_p_value = cal_pearson_corr(model_zero_shot_choices, expected_choices, args)
-    # model_zero_expected_mse = cal_mean_squared_error(model_zero_shot_choices, expected_choices, args)
-    # print(f"Model zero shot expected Spearman correlation: {model_zero_expected_spearman} | Model zero shot expected Pearson correlation: {model_zero_expected_pearson} | Model zero shot expected MSE: {model_zero_expected_mse}")
-    
-    # model_cot_expected_spearman, model_cot_expected_spearman_p_value = cal_spearman_corr(model_cot_choices, expected_choices, args)
-    # model_cot_expected_pearson, model_cot_expected_pearson_p_value = cal_pearson_corr(model_cot_choices, expected_choices, args)
-    # model_cot_expected_mse = cal_mean_squared_error(model_cot_choices, expected_choices, args)
-    # print(f"Model cot expected Spearman correlation: {model_cot_expected_spearman} | Model cot expected Pearson correlation: {model_cot_expected_pearson} | Model cot expected MSE: {model_cot_expected_mse}")
-    
-    # model_zero_human_spearman, model_zero_human_spearman_p_value = cal_spearman_corr(model_zero_shot_choices, human_choices, args)
-    # model_zero_human_pearson, model_zero_human_pearson_p_value = cal_pearson_corr(model_zero_shot_choices, human_choices, args)
-    # model_zero_human_mse = cal_mean_squared_error(model_zero_shot_choices, human_choices, args)
-    # print(f"Model zero shot human Spearman correlation: {model_zero_human_spearman} | Model zero shot human Pearson correlation: {model_zero_human_pearson} | Model zero shot human MSE: {model_zero_human_mse}")   
-    
-    # model_cot_human_spearman, model_cot_human_spearman_p_value = cal_spearman_corr(model_cot_choices, human_choices, args)
-    # model_cot_human_pearson, model_cot_human_pearson_p_value = cal_pearson_corr(model_cot_choices, human_choices, args)
-    # model_cot_human_mse = cal_mean_squared_error(model_cot_choices, human_choices, args)
-    # print(f"Model cot human Spearman correlation: {model_cot_human_spearman} | Model cot human Pearson correlation: {model_cot_human_pearson} | Model cot human MSE: {model_cot_human_mse}")
-            
-    
-    # human_expected_spearman, human_expected_spearman_p_value = cal_spearman_corr(human_choices, expected_choices, args)
-    # human_expected_pearson, human_expected_pearson_p_value = cal_pearson_corr(human_choices, expected_choices, args)
-    # human_expected_mse = cal_mean_squared_error(human_choices, expected_choices, args)
-    # print(f"Human expected Spearman correlation: {human_expected_spearman} | Human expected Pearson correlation: {human_expected_pearson} | Human expected MSE: {human_expected_mse}")
-        
-    
     model_zero_model_cot_spearman, model_zero_model_cot_spearman_p_value = cal_spearman_corr(model_zero_shot_choices, model_cot_choices, args)
     model_zero_model_cot_pearson, model_zero_model_cot_pearson_p_value = cal_pearson_corr(model_zero_shot_choices, model_cot_choices, args)
     model_zero_model_cot_mse = cal_mean_squared_error(model_zero_shot_choices, model_cot_choices, args)

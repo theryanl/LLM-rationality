@@ -1,5 +1,5 @@
 """
-python -m src.forward_model.forward_model
+python -m forward_model.forward_model
 """
 import os
 import sys
@@ -193,7 +193,7 @@ if __name__ == "__main__":
     parser.add_argument("--system_prompt", type=str, default="")
     parser.add_argument("--prompt_method", type=str, default="cot")
     parser.add_argument("--instruction_mode", type=str, default="individual_zero_shot")
-    parser.add_argument("--temperature", type=float, default=0.9)
+    parser.add_argument("--temperature", type=float, default=0.7)
     parser.add_argument("--max_tokens", type=int, default=1)
     args = parser.parse_args()
     main(args)

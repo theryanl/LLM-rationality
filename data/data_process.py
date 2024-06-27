@@ -1,5 +1,5 @@
 """
-python -m src.data.data_process
+python -m data.data_process
 """
 
 from datasets import load_dataset, Dataset

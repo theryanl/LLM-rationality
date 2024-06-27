@@ -8,6 +8,7 @@ Our paper consists of the forward modeling experiment (simulations and predictio
 To run the experiments collecting data, use the following commands:
 
 forward modeling: 
+sh scripts.run_forward.sh
 
 inverse modeling: 
 ./inverse_model/run_inverse.sh
@@ -15,6 +16,7 @@ inverse modeling:
 To run analyses, use the following commands:
 
 forward modeling: 
+sh scripts.run_forward_analysis.sh
 
 inverse modeling: 
 ./inverse_model/run_analysis.sh

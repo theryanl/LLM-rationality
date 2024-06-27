@@ -1,5 +1,5 @@
 """
-python -m src.data.data_utils
+python -m data.data_utils
 """
 from datasets import load_dataset, Dataset
 from rich import print

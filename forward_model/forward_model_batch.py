@@ -1,5 +1,5 @@
 """
-python -m src.forward_model.forward_model_batch
+python -m forward_model.forward_model_batch
 """
 import os
 import sys
@@ -52,7 +52,6 @@ def main(args):
         instruction_mode=args.instruction_mode,
     )
     samples = dataset.samples
-    # print(f"samples: {samples}")
     output_path = Path(args.output_dir,args.instruction_mode)
     output_path.mkdir(parents=True, exist_ok=True)
     output_file = output_path / f"{args.begin_idx}_{args.begin_idx + args.num_examples}_choices13k.jsonl"

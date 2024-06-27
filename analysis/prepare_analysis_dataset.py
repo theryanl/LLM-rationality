@@ -1,6 +1,6 @@
 
 """
-python -m src.inference.forward_model
+python -m analysis.prepare_analysis_dataset
 """
 import os
 import sys
@@ -55,9 +55,7 @@ def main(args):
             count = 0
             for sample, human_sample, model_pred in zip(samples, human_samples, model_dataset):
                 expected_A, expected_B = cal_expected_value(sample.prob_A, sample.prob_B)
-                # print(f"model_pred: {model_pred}")
                 completion = model_pred["completion"]
-                # print(f"completion: {completion}")
                 prob_A = 1 if model_pred['answer'][0] == "A" else 0
                 prob_B = 1 if model_pred['answer'][0] == "B" else 0
                 prob = {"Prob_A": prob_A, "Prob_B": prob_B}
@@ -76,7 +74,6 @@ def main(args):
         elif args.instruction_mode == "individual_zero_shot":
             for sample, human_sample, model_pred in zip(samples, human_samples, model_dataset):
                 completion = model_pred["completion"]
-                # print(f"completion: {completion}")
                 prob_A = 1 if model_pred['answer'][0] == "A" else 0
                 prob_B = 1 if model_pred['answer'][0] == "B" else 0
                 prob = {"Prob_A": prob_A, "Prob_B": prob_B}
@@ -93,8 +90,6 @@ def main(args):
                 
         elif args.instruction_mode == "act_individual_cot":
             for sample, human_sample, model_pred in zip(samples, human_samples, model_dataset):
-                # print(f"model_pred: {model_pred}")
-                # input()
                 prob_A = 1 if model_pred['answer'][0] == "A" else 0
                 prob_B = 1 if model_pred['answer'][0] == "B" else 0
                 prob = {"Prob_A": prob_A, "Prob_B": prob_B}
@@ -108,15 +103,11 @@ def main(args):
                     a_rate=model_pred['a_rate'],
                 )
                 f.write(json.dumps(output) + "\n")
-                    
-                
                 
         elif args.instruction_mode == "act_individual_zero_shot":
             for sample, human_sample, model_pred in zip(samples, human_samples, model_dataset):
                 expected_A, expected_B = cal_expected_value(sample.prob_A, sample.prob_B)
-                # print(f"model_pred: {model_pred}")
                 completion = model_pred["completion"]
-                # print(f"completion: {completion}")
                 prob_A = 1 if model_pred['answer'][0] == "A" else 0
                 prob_B = 1 if model_pred['answer'][0] == "B" else 0
                 prob = {"Prob_A": prob_A, "Prob_B": prob_B}
@@ -130,37 +121,17 @@ def main(args):
                     a_rate=model_pred['a_rate'],
                 )
                 f.write(json.dumps(output) + "\n")
-                
-                
-                
-            
+
         elif args.instruction_mode == "aggregate_zero_shot" or args.instruction_mode == "aggregate_cot":
             count = 0
             for sample, human_sample, model_pred in zip(samples, human_samples, model_dataset):
                 expected_A, expected_B = cal_expected_value(sample.prob_A, sample.prob_B)
                 completion = model_pred["completion"][0]
-                # print(f"completion: {completion}")
-                # input()
-                # print(f"model_pred: {model_pred}")
-                # if model_pred['answer'][0] == "A":
-                #     prob = {"Prob_A": 1, "Prob_B": 0}
-                # elif model_pred['answer'][0] == "B":
-                #     prob = {"Prob_A": 0, "Prob_B": 1}
-                # else:
-                #     prob = {"Prob_A": 0, "Prob_B": 0}
-          
                 try:
                     begin_idx = completion.find('{\n')
-                    # end_idx = completion.find("```", begin_idx+1)
                     end_idx = completion.find('\n}')
-                    # print(f"begin_idx: {begin_idx}")
-                    # print(f"end_idx: {end_idx}")
                     final_completion = completion[begin_idx:end_idx+len('\n}')]
-                    # print(f"final_completion: {final_completion}")
                     final_completion = json.loads(final_completion)
-                    # print(f"final_completion: {final_completion}")
-                    # input()
-                   
                     machine_A_prob = final_completion["Machine A"]
                     machine_B_prob = final_completion["Machine B"]
                     if type(machine_A_prob) == int and type(machine_B_prob) == int:
@@ -189,7 +160,6 @@ def main(args):
                     
                     else:
                         model_choices = None
-                    # print(f"model_choices: {model_choices}") 
                     prob= {"Prob_A": machine_A_prob / 100, "Prob_B": machine_B_prob / 100}
                 except:
                     if model_pred['completion'] is None:
@@ -223,10 +193,7 @@ def main(args):
                         or 'would choose the guaranteed payout of Machine B' in model_pred['completion']:
                         model_choices="B"
                         prob={"Prob_A": 0, "Prob_B": 1}
-                    # else:
-                    #     model_choices = "A" if expected_A > expected_B else "B"
-                    #     prob={"Prob_A": 0, "Prob_B": 0}
-
+                  
                 output = dict(
                     sample_id=count,
                     prompt=model_pred['prompt'],
@@ -236,8 +203,7 @@ def main(args):
                     b_rate=model_pred['b_rate'],
                     a_rate=model_pred['a_rate'],
                 )
-                # print(f"output: {output}")
-                # input()
+
                 f.write(json.dumps(output) + "\n")
                 count += 1
             
@@ -255,5 +221,5 @@ if __name__ == "__main__":
     parser.add_argument("--max_tokens", type=int, default=1)
     args = parser.parse_args()
     main(args)
-    print(f"[bold green] Completed forward modelling [/bold green]")
+    print(f"[bold green] Completed forward modelling analysis preparation [/bold green]")
     

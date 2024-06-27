@@ -2,7 +2,6 @@ from datasets import load_dataset, load_from_disk
 from rich import print
 import json 
 import matplotlib.pyplot as plt
-# Load the dataset
 import numpy as np
 from scipy.stats import kstest, chi2_contingency
 from statsmodels.stats.contingency_tables import mcnemar
@@ -22,9 +21,7 @@ def plot(ground_truth, pred, title):
     smoothed_pred = moving_average(pred, 10)
     plt.plot(smoothed_pred, label='b_prob', marker='x', markersize=2, color='forestgreen')
     plt.plot(smoothed_ground_truth, label='b_rate', marker='o', markersize=2, color='gold')
-    
-    # plt.plot(ground_truth, label='b_rate', marker='o', markersize=2, color='gold')
-    # plt.plot(pred, label='b_prob', marker='x', markersize=2, color='skyblue')
+
     plt.xlabel('num_instances')
     plt.ylabel('Probability')
     plt.title(title)

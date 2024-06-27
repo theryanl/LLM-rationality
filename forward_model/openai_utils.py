@@ -1,5 +1,5 @@
 """
-python -m src.forward_model.openai_utils
+python -m forward_model.openai_utils
 """
 from typing import List, Literal, Optional
 from dataclasses import dataclass
