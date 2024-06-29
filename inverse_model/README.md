@@ -7,6 +7,6 @@ Using these experiment materials, prompts are made in prompts.py.
 
 Code to query the LLM results are in: inverse_model.py, fix_queries.py (for partial fixes). To run, use run_inverse.sh, run_inverse_neg.sh, or run_inverse_batch.sh. Batches are used for GPT-4o only in our implementation, but are recommended since they are 50% cheaper. 
 
-Code to compute the human results are in: choicesort.m, choicesort_representativeness.m, printresults_fractional.py. These are also from https://github.com/alanjern/preferencelearning/tree/master/Experiment%201/Data.
+Code to compute the human results are in: choicesort.m, choicesort_representativeness.m, printresults_fractional.py. These are referenced from https://github.com/alanjern/preferencelearning/tree/master/Experiment%201.
 
 Code to run the analysis is in: analysis.py. To run, use run_analysis.sh. 
