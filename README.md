@@ -20,7 +20,7 @@ inverse modeling:
 ./inverse_model/run_inverse.sh
 ```
 
-To run analyses, use the following commands:
+To run analyses, use the following commands: 
 forward modeling: 
 ```shell
 sh scripts.run_forward_analysis.sh
