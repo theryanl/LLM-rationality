@@ -21,6 +21,7 @@ inverse modeling:
 ```
 
 To run analyses, use the following commands: 
+
 forward modeling: 
 ```shell
 sh scripts.run_forward_analysis.sh
